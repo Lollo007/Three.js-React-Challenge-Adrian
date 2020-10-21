@@ -1,0 +1,5 @@
+1: Anlegen eines Git Repos
+
+2: Anlegen eines React Projekts (https://reactjs.org/tutorial/tutorial.html)
+
+3: Einarbeiten in Three Js (https://blog.bitsrc.io/starting-with-react-16-and-three-js-in-5-minutes-3079b8829817)

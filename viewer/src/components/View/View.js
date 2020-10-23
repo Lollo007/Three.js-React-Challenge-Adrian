@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as THREE from "three";
-import file from "../data/challenge-mesh.json"
+import file from "../data/test-mesh.json"
 import './View.css'
 
 class View extends Component {
@@ -25,6 +25,7 @@ class View extends Component {
     const material = new THREE.MeshStandardMaterial({color: this.meshColor});
 
     renderer.setSize( window.innerWidth, window.innerHeight );
+    scene.background = new THREE.Color( 0x111111);
     document.body.appendChild( renderer.domElement );
     camera.position.z = 25;
 
@@ -90,8 +91,6 @@ class View extends Component {
       const rot = time * speed;
       instance.rotation.y = rot;
       */
-
-
       instance.material.color = this.meshColor;
       renderer.render(scene, camera);
 
@@ -142,8 +141,8 @@ class View extends Component {
         let new_x = move_mouse.x - ( event.clientX / window.innerWidth );
         let new_y = move_mouse.y + ( event.clientY / window.innerHeight );
 
-        instance.rotation.y += new_x * .1;
-        instance.rotation.x += new_y * .1;
+        instance.rotation.y += new_x * .2;
+        instance.rotation.x += new_y * .2;
       }
     }
 

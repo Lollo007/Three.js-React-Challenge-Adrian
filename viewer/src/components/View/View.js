@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import * as THREE from "three";
 import file from "../data/challenge-mesh.json"
+import './View.css'
 
 class View extends Component {
 
   constructor(props) {
     super(props);
-
-    console.log("Hello");
-    this.meshColor = new THREE.Color(Math.random(), Math.random(), Math.random())
+    this.toggleColorOnClick();
   }
 
-  HandleChangeMeshColorButtonClicked(){
-    console.log("click");
+  toggleColorOnClick(){
     this.meshColor = new THREE.Color(Math.random(), Math.random(), Math.random())
   }
 
@@ -20,6 +18,8 @@ class View extends Component {
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
     let renderer = new THREE.WebGLRenderer();
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
     camera.position.z = 25;
@@ -68,11 +68,11 @@ class View extends Component {
     //const color = new THREE.Color( 0xffaa00 )
     const material = new THREE.MeshStandardMaterial({color: this.meshColor});
 
-    let instance_1 = new THREE.Mesh(geometry, material)
+    let instance = new THREE.Mesh(geometry, material)
 
-    instance_1.position.set(0,0,0);
+    instance.position.set(0,0,0);
 
-    scene.add( instance_1 );
+    scene.add( instance );
 
     function resizeRendererToDisplaySize(renderer) {
       const canvas = renderer.domElement;
@@ -96,20 +96,39 @@ class View extends Component {
       const speed = .5;
       const rot = time * speed;
       //instance_1.rotation.x = rot;
-      instance_1.material = new THREE.MeshStandardMaterial({color: this.meshColor});
+      instance.material = new THREE.MeshStandardMaterial({color: this.meshColor});
 
       renderer.render(scene, camera);
 
       requestAnimationFrame(render.bind(this));
     }
-
     requestAnimationFrame(render.bind(this));
+
+
+    renderer.domElement.addEventListener("click", onclick.bind(this), true);
+
+    function onclick(event) {
+      console.log("onclick")
+      mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      let intersects = raycaster.intersectObjects(scene.children, true);
+
+      for(let i = 0; i < intersects.length; i++)
+      {
+        if (intersects[i].object === instance)
+        {
+          console.log("hit");
+          this.toggleColorOnClick();
+        }
+      }
+    }
   }
 
   render() {
     return (
-        <div>View
-          <button onClick={this.HandleChangeMeshColorButtonClicked.bind(this)}>
+        <div>
+          <button className="myButton" onClick={this.toggleColorOnClick.bind(this)}>
             Change Mesh Color
           </button>
         </div>

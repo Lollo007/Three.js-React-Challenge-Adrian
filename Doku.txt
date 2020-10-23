@@ -3,3 +3,9 @@
 2: Anlegen eines React Projekts (https://reactjs.org/tutorial/tutorial.html)
 
 3: Einarbeiten in Three Js (https://blog.bitsrc.io/starting-with-react-16-and-three-js-in-5-minutes-3079b8829817)
+
+4: Bearbeitung der Aufgabe:
+	- Umschreiben des Beispiels (https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html)
+	- Implementierung der onClick methode (https://discourse.threejs.org/t/click-event-on-object/1320/2)
+	- Zentrierung des Pivotpoints
+	- Rotation um x- und y-Achse mittels Mausgeseten

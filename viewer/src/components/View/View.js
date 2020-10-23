@@ -84,12 +84,12 @@ class View extends Component {
     scene.add(instance);
 
     function render(time) {
-      //Make Object Rotate
-
+      /*//Make Object Rotate
       time *= 0.001
       const speed = .5;
       const rot = time * speed;
-      //instance.rotation.y = rot;
+      instance.rotation.y = rot;
+      */
 
 
       instance.material.color = this.meshColor;
@@ -119,6 +119,34 @@ class View extends Component {
         }
       }
     }
+
+    //Rotate on MouseMove functionality
+    let move_mouse = new THREE.Vector2(0,0);
+    let mouse_is_down = false;
+    renderer.domElement.addEventListener("mousemove", mouseMove.bind(this), true);
+    renderer.domElement.addEventListener("mousedown", mouseDown.bind(this), true);
+    renderer.domElement.addEventListener("mouseup", mouseUp.bind(this), true);
+
+    function mouseDown(event) {
+      move_mouse.x = ( event.clientX / window.innerWidth );
+      move_mouse.y = - ( event.clientY / window.innerHeight );
+      mouse_is_down = true;
+    }
+
+    function mouseUp() {
+      mouse_is_down = false;
+    }
+
+    function mouseMove(event) {
+      if (mouse_is_down){
+        let new_x = move_mouse.x - ( event.clientX / window.innerWidth );
+        let new_y = move_mouse.y + ( event.clientY / window.innerHeight );
+
+        instance.rotation.y += new_x * .1;
+        instance.rotation.x += new_y * .1;
+      }
+    }
+
   }
 
   render() {

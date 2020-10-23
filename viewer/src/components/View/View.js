@@ -35,13 +35,27 @@ class View extends Component {
     light.position.set(0, 0, 40);
     scene.add(light);
 
+    let sum_x = 0;
+    let sum_y = 0;
+    let sum_z = 0;
+
+    for (let i = 0; i < mesh_representation.positions.length; i=i+3) {
+      sum_x += mesh_representation.positions[i];
+      sum_y += mesh_representation.positions[i+1];
+      sum_z += mesh_representation.positions[i+2];
+    }
+
+    let pivot_x = sum_x / (mesh_representation.positions.length / 3);
+    let pivot_y = sum_y / (mesh_representation.positions.length / 3);
+    let pivot_z = sum_z / (mesh_representation.positions.length / 3);
+
 
     for (let i = 0; i < mesh_representation.positions.length; i=i+3) {
       geometry.vertices.push(
           new THREE.Vector3(
-              mesh_representation.positions[i],
-              mesh_representation.positions[i+1],
-              mesh_representation.positions[i+2])
+              mesh_representation.positions[i] - pivot_x,
+              mesh_representation.positions[i+1] - pivot_y,
+              mesh_representation.positions[i+2] - pivot_z)
       );
     }
 
@@ -66,17 +80,17 @@ class View extends Component {
 
     let instance = new THREE.Mesh(geometry, material)
     instance.position.set(0,0,0);
-    instance.rotateX(0.6);
+    instance.rotateX(0.53);
     scene.add(instance);
 
     function render(time) {
       //Make Object Rotate
-      /*
+
       time *= 0.001
       const speed = .5;
       const rot = time * speed;
-      instance.rotation.y = rot;
-      */
+      //instance.rotation.y = rot;
+
 
       instance.material.color = this.meshColor;
       renderer.render(scene, camera);

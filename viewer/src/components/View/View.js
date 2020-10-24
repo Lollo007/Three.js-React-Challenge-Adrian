@@ -17,12 +17,13 @@ class View extends Component {
   componentDidMount() {
     const mesh_representation = file['07Enbsqm9C7AQC9iyBwfSD'].mesh_representation;
     const geometry = new THREE.Geometry();
+    const material = new THREE.MeshStandardMaterial({color: this.meshColor});
+
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
     let renderer = new THREE.WebGLRenderer();
     let raycaster = new THREE.Raycaster();
     let mouse = new THREE.Vector2();
-    const material = new THREE.MeshStandardMaterial({color: this.meshColor});
 
     renderer.setSize( window.innerWidth, window.innerHeight );
     scene.background = new THREE.Color( 0x111111);
@@ -49,7 +50,6 @@ class View extends Component {
     let pivot_x = sum_x / (mesh_representation.positions.length / 3);
     let pivot_y = sum_y / (mesh_representation.positions.length / 3);
     let pivot_z = sum_z / (mesh_representation.positions.length / 3);
-
 
     for (let i = 0; i < mesh_representation.positions.length; i=i+3) {
       geometry.vertices.push(
@@ -85,11 +85,12 @@ class View extends Component {
     scene.add(instance);
 
     function render(time) {
-      /*//Make Object Rotate
+      /*
+      //Make Object Rotate
       time *= 0.001
       const speed = .5;
       const rot = time * speed;
-      instance.rotation.y = rot;
+      instance.rotation.x = rot;
       */
       instance.material.color = this.meshColor;
       renderer.render(scene, camera);
@@ -119,7 +120,7 @@ class View extends Component {
       }
     }
 
-    //Rotate on MouseMove functionality
+    //Rotate on MouseMove and MouseDown functionality
     let move_mouse = new THREE.Vector2(0,0);
     let mouse_is_down = false;
     renderer.domElement.addEventListener("mousemove", mouseMove.bind(this), true);
@@ -145,7 +146,6 @@ class View extends Component {
         instance.rotation.x += new_y * .2;
       }
     }
-
   }
 
   render() {
